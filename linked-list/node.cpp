@@ -1,9 +1,9 @@
 #include "Node.h"
 
-Node::Node(int _data, Node *_next)
+Node::Node(int _data)
 {
     data = _data;
-    next = _next;
+    next = nullptr;
 }
 
 int Node::get_data() { return data; }

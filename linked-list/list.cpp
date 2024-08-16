@@ -13,12 +13,13 @@ List::List()
 void List::append(int data)
 {
 
-    Node *temp = new Node(data, nullptr);
+    Node *temp = new Node(data);
     if (head == nullptr)
     {
         head = temp;
         tail = temp;
     }
+    else
     {
 
         tail->set_next(temp);
