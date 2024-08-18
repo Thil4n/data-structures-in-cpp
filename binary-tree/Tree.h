@@ -10,6 +10,7 @@ public:
     ~Tree();
 
     void insert(int data);
+    void find(int data);
     void rec_print(Node *current, int space);
     void print();
 

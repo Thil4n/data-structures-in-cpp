@@ -1,5 +1,7 @@
 #include "Tree.h"
 #include <iostream>
+#include <queue>
+#include <iomanip>
 
 using namespace std;
 
@@ -11,6 +13,8 @@ Tree::Tree()
 
 void Tree::insert(int data)
 {
+    cout << "inserting data : " << data << endl;
+
     Node *temp = new Node(data);
 
     if (root == nullptr)
@@ -22,7 +26,7 @@ void Tree::insert(int data)
     else
     {
         Node *current = root;
-        while (current != nullptr)
+        while (true)
         {
 
             if (current->data < data)
@@ -40,7 +44,7 @@ void Tree::insert(int data)
             }
             else if (current->data > data)
             {
-                cout << "data " << data << endl;
+
                 if (current->left == nullptr)
                 {
                     current->left = temp;
@@ -57,6 +61,65 @@ void Tree::insert(int data)
                 cout << "Already exists" << endl;
                 break;
             }
+        }
+    }
+}
+
+void Tree::find(int data)
+{
+    cout << "finding data : " << data << endl;
+
+    if (root == nullptr)
+    {
+
+        cout << "Not found" << endl;
+    }
+    else
+    {
+        Node *current = root;
+        bool found = false;
+        while (true)
+        {
+
+            if (current->data == data)
+            {
+                cout << "Found" << endl;
+                found = true;
+                break;
+            }
+
+            if (current->data < data)
+            {
+
+                if (current->right == nullptr)
+                {
+
+                    break;
+                }
+                else
+                {
+                    current = current->right;
+                }
+            }
+            else if (current->data > data)
+            {
+
+                if (current->left == nullptr)
+                {
+
+                    break;
+                }
+                else
+                {
+                    current = current->left;
+                }
+            }
+        }
+
+        if (!found)
+        {
+
+            cout << "Not found" << endl;
         }
     }
 }
@@ -80,9 +143,48 @@ void Tree::rec_print(Node *current, int space)
     rec_print(current->left, space);
 }
 
+// void Tree::print()
+// {
+//     rec_print(root, 8);
+// }
+
 void Tree::print()
 {
-    rec_print(root, 8);
+    if (root == nullptr)
+    {
+        cout << "Tree is empty." << endl;
+        return;
+    }
+
+    // Use a queue to perform level-order traversal
+    queue<Node *> q;
+    q.push(root);
+
+    int level = 0;
+    while (!q.empty())
+    {
+        int nodeCount = q.size();
+
+        cout << "Level " << level++ << ": ";
+
+        while (nodeCount > 0)
+        {
+            Node *node = q.front();
+            q.pop();
+
+            // Print the current node's data
+            cout << setw(4) << node->data << " ";
+
+            // Enqueue left and right children
+            if (node->left != nullptr)
+                q.push(node->left);
+            if (node->right != nullptr)
+                q.push(node->right);
+
+            nodeCount--;
+        }
+        cout << endl;
+    }
 }
 
 void Tree::destroy(Node *current)
